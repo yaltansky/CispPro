@@ -1,0 +1,15 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[TASKS_TAGS_NAMES]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [TASKS_TAGS_NAMES](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[MOL_ID] [int] NOT NULL,
+	[NAME] [varchar](max) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)
+)
+END
+GO
+

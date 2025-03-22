@@ -1,0 +1,44 @@
+﻿IF OBJECT_ID('V_MFR_PLANS_JOBS_MATERIALS') IS NOT NULL DROP VIEW V_MFR_PLANS_JOBS_MATERIALS
+GO
+-- SELECT TOP 100 * FROM V_MFR_PLANS_JOBS_MATERIALS
+CREATE VIEW V_MFR_PLANS_JOBS_MATERIALS
+AS
+SELECT
+	X.PLAN_JOB_ID,
+	X.ITEM_ID,
+	ITEM_NAME = P.NAME,
+	X.MATERIAL_ID,
+	MATERIAL_NAME = P2.NAME,
+	X.Q_BRUTTO,
+	X.Q_BRUTTO_PRODUCT,
+	X.UNIT_NAME
+FROM (
+	SELECT
+		JD.PLAN_JOB_ID,
+		JD.ITEM_ID, 
+		MATERIAL_ID = DI.ITEM_ID,
+		DI.UNIT_NAME,
+		Q_BRUTTO = SUM(DI.Q_BRUTTO),
+		Q_BRUTTO_PRODUCT = SUM(JD.PLAN_Q * DI.Q_BRUTTO)
+	FROM MFR_PLANS_JOBS_DETAILS JD
+		JOIN SDOCS_MFR_CONTENTS C ON C.CONTENT_ID = JD.CONTENT_ID
+			JOIN SDOCS_MFR_DRAFTS D ON D.DRAFT_ID = C.DRAFT_ID
+				JOIN SDOCS_MFR_DRAFTS_ITEMS DI ON DI.DRAFT_ID = D.DRAFT_ID
+	WHERE DI.IS_BUY = 1
+	GROUP BY
+		JD.PLAN_JOB_ID, JD.ITEM_ID, DI.ITEM_ID, DI.UNIT_NAME
+	) X
+	JOIN PRODUCTS P ON P.PRODUCT_ID = X.ITEM_ID
+	JOIN PRODUCTS P2 ON P2.PRODUCT_ID = X.MATERIAL_ID
+where x.q_brutto_product > 0
+	and (
+		dbo.app_registry_varchar('mfrprintmaterialsattr') is null
+		or exists(
+			select 1
+			from products_attrs pa
+				join mfr_attrs a on a.name = dbo.app_registry_varchar('mfrprintmaterialsattr')
+			where pa.attr_value = 'основной'
+				and pa.product_id = x.material_id
+			)
+		)
+GO

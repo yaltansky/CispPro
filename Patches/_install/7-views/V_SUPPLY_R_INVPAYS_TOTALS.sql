@@ -1,0 +1,47 @@
+﻿IF OBJECT_ID('V_SUPPLY_R_INVPAYS_TOTALS') IS NOT NULL DROP VIEW V_SUPPLY_R_INVPAYS_TOTALS
+GO
+-- SELECT TOP 50 * FROM V_SUPPLY_R_INVPAYS_TOTALS
+CREATE VIEW V_SUPPLY_R_INVPAYS_TOTALS
+AS
+    SELECT *,
+        CONTENT = CONCAT(INV_NUMBER, '#', MFR_NUMBER, '#', ITEM_NAME, '#', MANAGER_NAME, '#', VENDOR_NAME)
+    FROM (
+    SELECT
+            X.ROW_ID,
+            X.MFR_DOC_ID,
+            ISNULL(MFR.NUMBER, '-') as MFR_NUMBER,
+            X.ITEM_ID,
+            P.NAME as ITEM_NAME,
+            MOLS.NAME as MANAGER_NAME,
+            cast(X.INV_D_PLAN as date) as INV_D_PLAN,
+            cast(X.INV_MS_D_PLAN as date) as INV_MS_D_PLAN,
+            I.NUMBER as INV_NUMBER,
+            INV_CONDITION,
+            INV_CONDITION_PAY,
+            INV_CONDITION_FUND,
+            INV_ID,
+            INV_DATE,
+            X.INV_MILESTONE_ID,
+            CONCAT(MS.MILESTONE_ID, '.', MS.NAME) as INV_MILESTONE,
+            A.NAME as VENDOR_NAME,
+            LEFT(CONVERT(VARCHAR, X.INV_D_PLAN, 20), 7) as INV_D_PLAN_MONTH,
+            DATEPART(ISO_WEEK, X.INV_D_PLAN) as INV_D_PLAN_WEEK,
+            cast(INV_D_MFR as date) as INV_D_MFR,
+            cast(INV_D_MFR_TO as date) as INV_D_MFR_TO,
+            INV_Q,
+            INV_Q_SHIP,
+            INV_VALUE,
+            INV_Q_SHIP / NULLIF(INV_Q, 0) * INV_VALUE as SHIP_VALUE,
+            PAYORDER_VALUE,
+            FINDOC_VALUE,
+            INV_FUND_VALUE
+        FROM SUPPLY_R_INVPAYS_TOTALS X
+            JOIN SUPPLY_INVOICES I ON I.DOC_ID = X.INV_ID
+            JOIN AGENTS A ON A.AGENT_ID = I.AGENT_ID
+            LEFT JOIN MOLS ON MOLS.MOL_ID = I.MOL_ID
+            LEFT JOIN SDOCS_MFR MFR ON MFR.DOC_ID = X.MFR_DOC_ID
+            LEFT JOIN SDOCS_MILESTONES_NAMES MS ON MS.MILESTONE_ID = X.INV_MILESTONE_ID
+            LEFT JOIN PRODUCTS P ON P.PRODUCT_ID = X.ITEM_ID
+        WHERE I.STATUS_ID >= 0
+    ) V
+GO

@@ -1,0 +1,40 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[DEALS_PRODUCTS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [DEALS_PRODUCTS](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[DEAL_ID] [int] NULL,
+	[ROW_ID] [int] NULL,
+	[PRODUCT_ID] [int] NULL,
+	[NAME] [varchar](500) NULL,
+	[QUANTITY] [decimal](18, 2) NULL,
+	[PRICE_PURE] [decimal](18, 2) NULL,
+	[PRICE_TRANSFER_PURE] [decimal](18, 2) NULL,
+	[NDS_RATIO] [decimal](18, 2) NULL,
+	[MATERIAL_RATIO] [decimal](18, 2) NULL,
+	[VALUE_BDR] [decimal](18, 2) NULL,
+	[VALUE_NDS] [decimal](18, 2) NULL,
+	[VALUE_BDS] [decimal](18, 2) NULL,
+	[VALUE_TRANSFER_PURE] [decimal](18, 2) NULL,
+	[VALUE_TRANSFER] [decimal](18, 2) NULL,
+	[NOTE] [varchar](250) NULL,
+	[eUnitName] [varchar](20) NULL,
+	[eMfrDocList] [varchar](max) NULL,
+	[eProductID] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)
+)
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[FK_DEALS_PRODUCTS]') AND parent_object_id = OBJECT_ID(N'[DEALS_PRODUCTS]'))
+ALTER TABLE [DEALS_PRODUCTS]  WITH CHECK ADD  CONSTRAINT [FK_DEALS_PRODUCTS] FOREIGN KEY([DEAL_ID])
+REFERENCES [DEALS] ([DEAL_ID])
+ON DELETE CASCADE
+GO
+
+IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[FK_DEALS_PRODUCTS]') AND parent_object_id = OBJECT_ID(N'[DEALS_PRODUCTS]'))
+ALTER TABLE [DEALS_PRODUCTS] CHECK CONSTRAINT [FK_DEALS_PRODUCTS]
+GO

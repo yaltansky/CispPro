@@ -1,0 +1,18 @@
+﻿IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'PROJECTS_TAGS') AND type in (N'U'))
+BEGIN
+CREATE TABLE PROJECTS_TAGS(
+	PROJECT_ID int not null,
+	TAG_ID int identity primary key,
+	NAME varchar(50) not null,
+	TYPE_ID int null default (1)
+)
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'PROJECTS_TAGS') AND name = N'IX_PROJECTS_TAGS')
+CREATE UNIQUE NONCLUSTERED INDEX IX_PROJECTS_TAGS ON PROJECTS_TAGS
+(
+	PROJECT_ID ASC,
+	TAG_ID ASC
+)
+GO

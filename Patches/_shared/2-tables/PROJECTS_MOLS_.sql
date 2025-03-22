@@ -1,0 +1,38 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[PROJECTS_MOLS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [PROJECTS_MOLS](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[PROJECT_ID] [int] NOT NULL,
+	[MOL_ID] [int] NULL,
+	[RESPONSE] [varchar](max) NULL,
+	[POST_NAME] [varchar](250) NULL,
+	[ADD_DATE] [datetime] DEFAULT getdate(),
+	[DURATION] [int] NULL,
+	[ACCOUNT_LEVEL_ID] [int] NULL,
+	[NAME] [varchar](50) NULL,
+	[PARENT_ID] [int] NULL,
+	[HAS_CHILDS] [bit] NOT NULL DEFAULT ((0)),
+	[LEVEL_ID] [int] NULL,
+	[SORT_ID] [float] NULL,
+	[NODE] [hierarchyid] NULL,
+	[IS_DELETED] [bit] NOT NULL DEFAULT ((0)),
+	[RESERVED] [int] NULL,
+	[INHERITED_ACCESS] [bit] NOT NULL DEFAULT ((0)),
+	[HOURLY_RATE] [decimal](18, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)
+)
+END
+GO
+
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[PROJECTS_MOLS]') AND name = N'IX_PROJECTS_MOLS')
+CREATE NONCLUSTERED INDEX [IX_PROJECTS_MOLS] ON [PROJECTS_MOLS]
+(
+	[PROJECT_ID] ASC,
+	[MOL_ID] ASC
+)
+GO

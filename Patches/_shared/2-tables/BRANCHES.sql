@@ -1,0 +1,21 @@
+﻿USE CISP_SHARED
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[BRANCHES]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [BRANCHES](
+	[BRANCH_ID] [int] IDENTITY(1,1) NOT NULL,
+	[SUBJECT_ID] [int] NULL,
+	[NAME] [varchar](250) NULL,
+	[SHORT_NAME] [varchar](10) NULL,
+	[HEAD_ID] [int] NULL,
+	[IS_DELETED] [bit] NULL DEFAULT ((0)),
+	[CITY_ID] [int] NULL,
+    PRIMARY KEY CLUSTERED 
+    (
+        [BRANCH_ID] ASC
+    )
+)
+END
+GO
+

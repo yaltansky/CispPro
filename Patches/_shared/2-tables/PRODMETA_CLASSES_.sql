@@ -1,0 +1,20 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[PRODMETA_CLASSES]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [PRODMETA_CLASSES](
+	[CLASS_ID] [int] IDENTITY(1,1) NOT NULL,
+	[NAME] [varchar](250) NULL,
+	[NOTE] [varchar](max) NULL,
+	[PARENT_ID] [int] NULL,
+	[HAS_CHILDS] [bit] NULL,
+	[NODE] [hierarchyid] NULL,
+	[LEVEL_ID] [int] NULL,
+	[IS_DELETED] [bit] NOT NULL DEFAULT ((0)),
+PRIMARY KEY CLUSTERED 
+(
+	[CLASS_ID] ASC
+)
+)
+END
+GO
+

@@ -1,0 +1,14 @@
+﻿IF OBJECT_ID('MFR_PRODUCTS_GRP2') IS NOT NULL DROP VIEW MFR_PRODUCTS_GRP2
+GO
+-- SELECT * FROM MFR_PRODUCTS_GRP2
+CREATE VIEW MFR_PRODUCTS_GRP2
+AS
+
+SELECT 
+	PA.PRODUCT_ID,
+	A.ATTR_ID,
+	A.NAME
+from products_attrs pa
+	join mfr_attrs a on a.attr_id = pa.attr_id and a.group_key = 'MfrGrp'
+
+GO

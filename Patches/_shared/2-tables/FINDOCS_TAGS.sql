@@ -1,0 +1,17 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[FINDOCS_TAGS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [FINDOCS_TAGS](
+	[TAG_ID] [int] IDENTITY(1,1) NOT NULL,
+	[NAME] [varchar](128) NOT NULL,
+	[STATUS_ID] [int] NOT NULL DEFAULT ((1)),
+	[ADD_DATE] [datetime] DEFAULT getdate(),
+	[ADD_MOL_ID] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TAG_ID] ASC
+)
+)
+END
+GO
+

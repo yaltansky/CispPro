@@ -1,0 +1,16 @@
+﻿USE CISP_SHARED
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[APP_DATABASES]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [APP_DATABASES](
+	[NAME] [varchar](30) NOT NULL,
+	[SHORT_NAME] [varchar](10) NULL,
+	[NOTE] [varchar](max) NULL,
+	[IS_DEFAULT] [bit] NOT NULL DEFAULT ((0)),
+PRIMARY KEY CLUSTERED 
+(
+	[NAME] ASC
+)
+)
+END
+GO

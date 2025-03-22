@@ -1,3 +1,5 @@
+USE CISP_SHARED
+
 -- SEED: ACCOUNTS_LEVELS
 IF NOT EXISTS(SELECT 1 FROM ACCOUNTS_LEVELS)
 INSERT INTO ACCOUNTS_LEVELS(ACCOUNT_LEVEL_ID, NAME) VALUES
@@ -671,6 +673,25 @@ INSERT INTO MFR_SDOCS_PRIORITIES(PRIORITY_ID, PRIORITY_MAX, NAME, CSS) VALUES
 (400, 500, 'низкий', 'badge bg-secondary text-xx-small opaque mb-1')
 GO
 
+-- SEED: MFR_PLANS_JOBS_PROBLEMS_TYPES
+;SET IDENTITY_INSERT MFR_PLANS_JOBS_PROBLEMS_TYPES ON;
+IF NOT EXISTS(SELECT 1 FROM MFR_PLANS_JOBS_PROBLEMS_TYPES)
+insert into MFR_PLANS_JOBS_PROBLEMS_TYPES(PROBLEM_ID,NAME,NOTE) values
+(1,'Отсутствие инструмента','Указать наименование и количество требуемого инструмента'),
+(2,'Отсутствие оснастки','Указать наименование требуемой оснастки, для какой операции'),
+(3,'Поломка оборудования','Указать наименование оборудования и узел, вышедший из строя'),
+(4,'Отсутствие исполнителя','Указать причину отсутствия: на больничном, дефицит работников…'),
+(5,'Ошибка маршрута','Указать номер участка, на который требуется направить деталь'),
+(6,'Ошибка длительности','Указать фактическую длительность дней/часов'),
+(7,'Оборудование занято',' Указать номер сменного задания, на котором занято оборудование, дату, до которой будет занято оборудование'),
+(8,'Исполнитель занят','Указать номер сменного задания, на котором занят исполнитель, дату, до которой будет занят исполнитель'),
+(9,'Отсутствие заготовки','Указать номер участка, с которого не передана заготовка'),
+(10,'Брак производства','Указать вид барака, дату исправления'),
+(11,'Отсутствие ЛЗК','Указать наименование и количество требуемых материалов/комплектующих'),
+(12,'В работе','Можно указать дополнительную информацию'),
+(13,'Вопросы по изготовлению к УГК/ОГТ',null)
+;SET IDENTITY_INSERT MFR_PLANS_JOBS_PROBLEMS_TYPES OFF;
+
 -- SEED: MOLS_STATUSES
 IF NOT EXISTS(SELECT 1 FROM MOLS_STATUSES)
 INSERT INTO MOLS_STATUSES(STATUS_ID, NAME, SORT, SHORT_NAME, IMG_URL) VALUES
@@ -855,33 +876,26 @@ INSERT INTO OPTIONS_LISTS(L_GROUP, ID, NAME, NOTE, ROW_ID, SHORT_NAME) VALUES
 ('MfrItemStatuses', '1', 'В работе', null, 727, null),
 ('MfrItemStatuses', '100', 'Сделано', null, 728, null),
 ('MfrItemStatuses', '200', 'Проверка', null, 729, null)
-
--- INSERT INTO OPTIONS_LISTS(L_GROUP,  ID,  NAME) VALUES 
--- ('MfrWkSheetsStatuses',  -2,  'Отменено'),
--- ('MfrWkSheetsStatuses',  -1,  'Удалено'),
--- ('MfrWkSheetsStatuses',  0,  'Черновик'),
--- ('MfrWkSheetsStatuses',  1,  'Выдан'),
--- ('MfrWkSheetsStatuses',  2,  'Исполнение'),
--- ('MfrWkSheetsStatuses',  100,  'Закрыто')
-
--- INSERT INTO OPTIONS_LISTS(L_GROUP,  ID,  NAME) VALUES 
--- ('SupplyPaysMilestones',  1,  'Подписана спецификация'),
--- ('SupplyPaysMilestones',  2,  'Уведомление о готовности'),
--- ('SupplyPaysMilestones',  3,  'Поступление на склад'),
--- ('SupplyPaysMilestones',  4,  'ЛЗК'),
--- ('SupplyPaysMilestones',  5,  '#5'),
--- ('SupplyPaysMilestones',  6,  '#6')
-
--- INSERT INTO OPTIONS_LISTS(L_GROUP,  ID,  NAME)
--- VALUES 
--- 	('SupplyPaysMilestones',  1,  'Подписана спецификация'),
--- 	('SupplyPaysMilestones',  2,  'Уведомление о готовности'),
--- 	('SupplyPaysMilestones',  3,  'Поступление на склад'),
---     ('SupplyPaysMilestones',  4,  'ЛЗК'),
---     ('SupplyPaysMilestones',  5,  '#5'),
---     ('SupplyPaysMilestones',  6,  '#6')
-
 ;SET IDENTITY_INSERT OPTIONS_LISTS OFF;
+
+DELETE FROM OPTIONS_LISTS where L_GROUP = 'MfrWkSheetsStatuses'
+INSERT INTO OPTIONS_LISTS(L_GROUP,  ID,  NAME) VALUES 
+('MfrWkSheetsStatuses',  -2,  'Отменено'),
+('MfrWkSheetsStatuses',  -1,  'Удалено'),
+('MfrWkSheetsStatuses',  0,  'Черновик'),
+('MfrWkSheetsStatuses',  1,  'Выдан'),
+('MfrWkSheetsStatuses',  2,  'Исполнение'),
+('MfrWkSheetsStatuses',  100,  'Закрыто')
+
+DELETE FROM OPTIONS_LISTS where L_GROUP = 'SupplyPaysMilestones'
+INSERT INTO OPTIONS_LISTS(L_GROUP,  ID,  NAME) VALUES 
+('SupplyPaysMilestones',  1,  'Подписана спецификация'),
+('SupplyPaysMilestones',  2,  'Уведомление о готовности'),
+('SupplyPaysMilestones',  3,  'Поступление на склад'),
+('SupplyPaysMilestones',  4,  'ЛЗК'),
+('SupplyPaysMilestones',  5,  '#5'),
+('SupplyPaysMilestones',  6,  '#6')
+
 GO
 
 -- SEED: OPTIONS
@@ -955,13 +969,6 @@ INSERT INTO OPTIONS(O_GROUP, O_PARENT, O_KEY, O_NAME, O_TYPE, O_TYPE_PARAM, O_RE
 ('BUYORDER', '', 'F4', 'Согласование', '', '', null, null, null, '', '', '', '', 1348),
 ('BUYORDER', 'F4', 'REFKEY', 'Состав операций', 'tasks', '', null, null, null, '', 'w-100', '', '', 1349)
 ;SET IDENTITY_INSERT OPTIONS OFF;
-GO
-
--- SEED: PA_SALARY_TYPES
-IF NOT EXISTS(SELECT 1 FROM PA_SALARY_TYPES)
-INSERT INTO PA_SALARY_TYPES(SALARY_TYPE_ID, NAME) VALUES
-(1, 'С учетом ставки'),
-(2, 'Полная ставка')
 GO
 
 -- SEED: PAYORDERS_STATUSES
@@ -1328,4 +1335,33 @@ INSERT INTO TASKS_TYPES(TYPE_ID, NAME) VALUES
 (2, 'Лист согласования'),
 (3, 'Лист ознакомления'),
 (10, 'Предоставление доступа')
+GO
+
+-- SEED: MOLS
+-- DELETE FROM MOLS;
+IF NOT EXISTS(SELECT 1 FROM MOLS WHERE MOL_ID = -25)
+INSERT INTO MOLS(MOL_ID, NAME, SURNAME, EMAIL, IS_WORKING, STATUS_ID, DEPT_ID)
+VALUES(-25, 'admin', 'admin', 'admin@mail.ru', 1, -2, 0)
+GO
+
+-- SEED: Users
+-- delete users;
+IF NOT EXISTS(SELECT 1 FROM Users)
+INSERT INTO Users(Id,Email,PasswordHash,Salt,StatusId) VALUES
+(-25, 'admin@dmail.ru', 'cJt/228sLnP6AIYsWnttOKj90bKPznIrr13vO2sIkaI==', 'J6xV7pQBotzi4PVYmiB2DQ==', 4)
+-- login: admin, pwd: cispadmin
+GO
+
+-- SEED: Roles
+;SET IDENTITY_INSERT Roles ON;
+IF NOT EXISTS(SELECT 1 FROM Roles)
+INSERT INTO Roles(Id, Name, Description) VALUES
+(1, 'Admin', 'Администратор системы')
+;SET IDENTITY_INSERT Roles OFF;
+GO
+
+-- SEED: UsersRoles
+IF NOT EXISTS(SELECT 1 FROM UsersRoles)
+INSERT INTO UsersRoles(UserId, RoleId) VALUES
+(-25, 1)
 GO

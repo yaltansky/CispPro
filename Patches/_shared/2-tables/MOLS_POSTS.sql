@@ -1,0 +1,20 @@
+﻿USE CISP_SHARED
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[MOLS_POSTS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [MOLS_POSTS](
+	[POST_ID] [int] IDENTITY(1,1) NOT NULL,
+	[NAME] [varchar](150) NULL,
+	[SUBJECT_ID] [int] NULL,
+	[IS_DELETED] [bit] NOT NULL DEFAULT ((0)),
+	[NOTE] [varchar](255) NULL,
+	[RATE_PRICE] [float] NULL,
+	[EXTERN_ID] [varchar](32) NULL,
+    CONSTRAINT [PK_MOLS_POSTS] PRIMARY KEY CLUSTERED 
+    (
+        [POST_ID] ASC
+    )
+)
+END
+GO

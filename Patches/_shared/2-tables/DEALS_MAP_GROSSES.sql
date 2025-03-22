@@ -1,0 +1,16 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[DEALS_MAP_GROSSES]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [DEALS_MAP_GROSSES](
+	[GROSS_ID] [int] NOT NULL,
+	[GROSS_NAME] [varchar](50) NULL,
+	[TASK_NAME] [varchar](50) NULL,
+	[ARTICLE_ID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[GROSS_ID] ASC
+)
+)
+END
+GO
+

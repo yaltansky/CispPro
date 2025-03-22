@@ -1,0 +1,18 @@
+﻿USE CISP_SHARED
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[PERIODS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [PERIODS](
+	[PERIOD_ID] [varchar](16) NOT NULL,
+	[NAME] [varchar](50) NOT NULL,
+	[DATE_START] [smalldatetime] NOT NULL,
+	[DATE_END] [smalldatetime] NOT NULL,
+	[TYPE_ID] [varchar](10) NULL,
+	[IS_OPENED] [bit] NOT NULL,
+ CONSTRAINT [PK_PERIODS] PRIMARY KEY CLUSTERED 
+(
+	[PERIOD_ID] ASC
+)
+)
+END
+GO

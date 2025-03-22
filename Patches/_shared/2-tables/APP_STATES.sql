@@ -1,0 +1,13 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[APP_STATES]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [APP_STATES](
+	[MOL_ID] [int] NOT NULL,
+	[APPSTATE] [text] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[MOL_ID] ASC
+)
+)
+END
+GO

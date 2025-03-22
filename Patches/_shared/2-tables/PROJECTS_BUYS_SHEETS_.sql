@@ -1,0 +1,20 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[PROJECTS_BUYS_SHEETS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [PROJECTS_BUYS_SHEETS](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[PROJECT_ID] [int] NULL,
+	[DOC_ID] [int] NULL,
+	[PRODUCT_ID] [int] NULL,
+	[QUANTITY] [float] NULL,
+	[Q_BUY] [float] NULL,
+	[Q_STOCK] [float] NULL,
+	[Q_MFS] [float] NULL,
+	[Q_LEFT] [float] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)
+)
+END
+GO

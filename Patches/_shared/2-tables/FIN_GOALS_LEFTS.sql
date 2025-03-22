@@ -1,0 +1,23 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[FIN_GOALS_LEFTS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [FIN_GOALS_LEFTS](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FIN_GOAL_ID] [int] NULL,
+	[BUDGET_ID] [int] NULL,
+	[ARTICLE_ID] [int] NULL,
+	[VALUE_END_CALC] [decimal](18, 2) NULL,
+	[VALUE_END] [decimal](18, 2) NULL,
+	[NOTE] [varchar](max) NULL,
+	[UPDATE_DATE] [datetime] NOT NULL DEFAULT (getdate()),
+	[UPDATE_MOL_ID] [int] NULL,
+	[IS_DELETED] [bit] NOT NULL DEFAULT ((0)),
+	[GOAL_ACCOUNT_ID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)
+)
+END
+GO
+

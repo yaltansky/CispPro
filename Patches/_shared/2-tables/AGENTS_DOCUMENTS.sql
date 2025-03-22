@@ -1,0 +1,29 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[AGENTS_DOCUMENTS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [AGENTS_DOCUMENTS](
+	[SUBJECT_ID] [int] NOT NULL DEFAULT ((-2)),
+	[AGENT_ID] [int] NOT NULL,
+	[DOCUMENT_ID] [int] IDENTITY(1,1) NOT NULL,
+	[NAME] [varchar](64) NOT NULL,
+	[DESCRIPTION] [varchar](max) NULL,
+	[TAGS] [varchar](max) NULL,
+	[ACCOUNT_LEVEL_ID] [int] NULL,
+	[HAS_FILES] [bit] NOT NULL DEFAULT ((0)),
+	[NODE] [hierarchyid] NULL,
+	[PARENT_ID] [int] NULL,
+	[LEVEL_ID] [int] NULL DEFAULT ((0)),
+	[SORT_ID] [float] NULL,
+	[HAS_CHILDS] [bit] NOT NULL DEFAULT ((0)),
+	[IS_DELETED] [bit] NOT NULL DEFAULT ((0)),
+	[ADD_DATE] [datetime] DEFAULT getdate(),
+	[ADD_MOL_ID] [int] NULL,
+	[STATUS_ID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DOCUMENT_ID] ASC
+)
+)
+END
+GO
+

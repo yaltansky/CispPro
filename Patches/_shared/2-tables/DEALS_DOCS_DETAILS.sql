@@ -1,0 +1,17 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[DEALS_DOCS_DETAILS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [DEALS_DOCS_DETAILS](
+	[DETAIL_ID] [int] IDENTITY(1,1) NOT NULL,
+	[DOC_ID] [int] NULL,
+	[NUMBER] [varchar](50) NULL,
+	[D_DOC] [datetime] NULL,
+	[EXTERNAL_ID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DETAIL_ID] ASC
+)
+)
+END
+GO
+

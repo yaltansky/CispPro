@@ -1,0 +1,23 @@
+﻿USE CISP_SHARED
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[OBJS_TYPES]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [OBJS_TYPES](
+	[TYPE] [varchar](8) NOT NULL,
+	[NAME] [varchar](32) NOT NULL,
+	[DESCRIPTION] [varchar](128) NULL,
+	[SOURCE_CMD] [varchar](max) NULL,
+	[URL] [varchar](max) NULL,
+	[FOLDER_KEYWORD] [varchar](32) NULL,
+	[ADD_DATE] [datetime] NULL,
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[IS_EXPORT] [bit] NULL,
+	[BASE_TABLE] [varchar](100) NULL,
+	[BASE_TABLE_COLUMN] [varchar](100) NULL,
+ CONSTRAINT [PK_OBJS_TYPES] PRIMARY KEY CLUSTERED 
+(
+	[TYPE] ASC
+)
+)
+END
+GO

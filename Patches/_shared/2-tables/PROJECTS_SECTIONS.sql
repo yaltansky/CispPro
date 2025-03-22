@@ -1,0 +1,24 @@
+﻿USE CISP_SHARED
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[PROJECTS_SECTIONS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [PROJECTS_SECTIONS](
+	[SECTION_ID] [int] NOT NULL,
+	[NAME] [varchar](50) NULL,
+	[HREF] [varchar](50) NULL,
+	[CSS] [varchar](50) NULL,
+	[IS_DEFAULT] [bit] NULL,
+	[IS_REQUIRED] [bit] NULL,
+	[IKEY] [varchar](16) NULL,
+	[SORT_ID] [int] NULL,
+	[DIVIDER_AFTER] [bit] NULL,
+	[CSS_LI] [varchar](80) NULL,
+	[IS_PROGRAM] [bit] NULL,
+	[IS_DEAL] [bit] NULL,
+ CONSTRAINT [PK_PROJECTS_SECTIONS] PRIMARY KEY CLUSTERED 
+(
+	[SECTION_ID] ASC
+)
+)
+END
+GO

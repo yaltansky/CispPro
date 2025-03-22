@@ -1,0 +1,15 @@
+﻿
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[TALKS_READS]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [TALKS_READS](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[HIST_ID] [int] NULL,
+	[MOL_ID] [int] NULL,
+	[READ_DATE] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)
+)
+END
+GO

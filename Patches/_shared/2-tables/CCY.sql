@@ -1,0 +1,17 @@
+﻿USE CISP_SHARED
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[CCY]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [CCY](
+	[CCY_ID] [char](3) NOT NULL,
+	[NAME] [char](3) NOT NULL,
+	[NAME_RUB] [varchar](20) NULL,
+	[NAME_KOP] [varchar](5) NULL,
+	[CODE] [int] NULL,
+ CONSTRAINT [PK_CCY] PRIMARY KEY CLUSTERED 
+(
+	[CCY_ID] ASC
+)
+)
+END
+GO
