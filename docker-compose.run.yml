@@ -11,7 +11,7 @@ services:
     container_name: cisp-root
     volumes: 
       - ./appsettings.json:/app/appsettings.json
-      - /mnt/cispfiles:/appfiles:rw
+      - /mnt/cispfiles:/cispfiles:rw
     ports:
       - "8000:9100"
     restart: always
@@ -21,7 +21,7 @@ services:
     container_name: cisp-mfrs
     volumes: 
       - ./appsettings.json:/app/appsettings.json
-      - /mnt/cispfiles:/appfiles:rw
+      - /mnt/cispfiles:/cispfiles:rw
     ports:
       - "9002:9100"
     restart: always
@@ -31,7 +31,7 @@ services:
     container_name: cisp-finance
     volumes: 
       - ./appsettings.json:/app/appsettings.json
-      - /mnt/cispfiles:/appfiles:rw
+      - /mnt/cispfiles:/cispfiles:rw
     ports:
       - "9004:9100"
     restart: always
@@ -41,7 +41,7 @@ services:
     container_name: cisp-products
     volumes: 
       - ./appsettings.json:/app/appsettings.json
-      - /mnt/cispfiles:/appfiles:rw
+      - /mnt/cispfiles:/cispfiles:rw
     ports:
       - "9003:9100"
     restart: always
@@ -50,7 +50,7 @@ services:
     image: ruselprom/cisp-proxy
     container_name: cisp-proxy
     volumes: 
-      - /mnt/cispfiles:/appfiles:rw
+      - /mnt/cispfiles:/cispfiles:rw
     ports:
       - "80:80"
     restart: always

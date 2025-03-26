@@ -196,7 +196,7 @@ begin
         if @product_group1_id is not null begin
             delete from #products
             insert into #products select product_id from mfr_products_grp1
-            where attr_id = @product_group1_id
+            where attr_id = @product_group1_id and product_id is not null
         end
 		
         if exists(select 1 from #products) set @search = null
