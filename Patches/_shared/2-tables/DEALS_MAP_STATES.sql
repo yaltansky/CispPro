@@ -1,9 +1,0 @@
-﻿
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[DEALS_MAP_STATES]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [DEALS_MAP_STATES](
-	[State] [int] NULL,
-	[STATUS_ID] [int] NULL
-)
-END
-GO
